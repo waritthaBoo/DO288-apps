@@ -5,14 +5,17 @@ pipeline {
     }
     agent {
       node {
+	label 'master'
         // TODO: run this simple pipeline on jenkins 'master' node
       }
+	// TEST
     }
 
     stages {
 
-        stage('stage 1') {
+        stage('stage 2') {
             steps {
+		sh 'echo hello from stage 2!'
                 script {
                     openshift.withCluster() {
                         openshift.withProject() {
@@ -29,6 +32,7 @@ pipeline {
 
         stage('stage 3') {
             steps {
+		timeout(time: 60, unit: 'MINUTES') {      input message: "Move to stage 3?"    }
                 sh 'echo hello from stage 3!. This is the last stage...'
             }
         }
